@@ -1,6 +1,6 @@
 use std::{env, fs, io::Read};
 
-use rsc::parser::Parser;
+use rsc::{ast::Ast, codegen::CodeGen, parser::Parser};
 
 fn main() {
     let args = env::args().collect::<Vec<_>>();
@@ -21,6 +21,11 @@ fn main() {
 
     let mut parser = Parser::new(name);
     let prog = parser.program().unwrap();
+    let ast_ = Ast { program: prog };
 
-    prog.declarations.iter().for_each(|x| println!("{:#?}", x))
+    // prog.declarations.iter().for_each(|x| println!("{:#?}", x))
+    let mut codegen = CodeGen;
+    let program_code = codegen.generate(&ast_).unwrap();
+
+    println!("{program_code}");
 }
